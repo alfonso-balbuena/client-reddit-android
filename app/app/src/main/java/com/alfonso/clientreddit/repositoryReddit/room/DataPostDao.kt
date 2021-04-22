@@ -13,10 +13,13 @@ interface DataPostDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsert(data : List<DataPost>)
 
-    @Query("SELECT * FROM DataPost WHERE dismiss = :flag ")
-    fun getPost(flag : Boolean) : LiveData<List<DataPost>>
+    @Query("SELECT * FROM DataPost WHERE id = :id")
+    suspend fun getPost(id : String) : DataPost
 
     @Query("SELECT * FROM DataPost WHERE dismiss = :flag ")
-    suspend fun getPostSynchronous(flag : Boolean) : List<DataPost>
+    fun getPosts(flag : Boolean) : LiveData<List<DataPost>>
+
+    @Query("SELECT * FROM DataPost WHERE dismiss = :flag ")
+    suspend fun getPostsSunpend(flag : Boolean) : List<DataPost>
 
 }

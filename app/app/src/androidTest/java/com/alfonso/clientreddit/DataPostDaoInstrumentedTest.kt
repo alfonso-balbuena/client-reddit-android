@@ -7,7 +7,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.alfonso.clientreddit.models.DataPost
 import com.alfonso.clientreddit.repositoryReddit.room.AppDataBase
 import com.alfonso.clientreddit.repositoryReddit.room.DataPostDao
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
@@ -41,7 +40,7 @@ class DataPostDaoInstrumentedTest {
         val postData = DataPost("aaaaaaaa","Title",5,"Me","",1619053076,false, read = false)
         runBlocking {
             dataPostDao.insert(listOf(postData))
-            val list = dataPostDao.getPostSynchronous(false)
+            val list = dataPostDao.getPostsSunpend(false)
             assert(list[0].id == "aaaaaaaa")
         }
 
@@ -54,7 +53,7 @@ class DataPostDaoInstrumentedTest {
             dataPostDao.insert(listOf(postData))
             postData.dismiss = true
             dataPostDao.insert(listOf(postData))
-            val list = dataPostDao.getPostSynchronous(false)
+            val list = dataPostDao.getPostsSunpend(false)
             assert(list.isNotEmpty())
         }
 
@@ -67,9 +66,18 @@ class DataPostDaoInstrumentedTest {
             dataPostDao.insert(listOf(postData))
             postData.dismiss = true
             dataPostDao.upsert(listOf(postData))
-            val list = dataPostDao.getPostSynchronous(false)
+            val list = dataPostDao.getPostsSunpend(false)
             assert(list.isEmpty())
         }
+    }
 
+    @Test
+    fun getPostDataTest() {
+        val postData = DataPost("aaaaaaaa","Title",5,"Me","",1619053076,false, read = false)
+        runBlocking {
+            dataPostDao.insert(listOf(postData))
+            val dataPostDB = dataPostDao.getPost(postData.id)
+            assert(dataPostDB == postData)
+        }
     }
 }
