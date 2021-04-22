@@ -8,15 +8,15 @@ import com.alfonso.clientreddit.models.DataPost
 interface DataPostDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(data : DataPost)
+    suspend fun insert(data : List<DataPost>)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun upsert(data : DataPost)
+    suspend fun upsert(data : List<DataPost>)
 
     @Query("SELECT * FROM DataPost WHERE dismiss = :flag ")
     fun getPost(flag : Boolean) : LiveData<List<DataPost>>
 
     @Query("SELECT * FROM DataPost WHERE dismiss = :flag ")
-    fun getPostSynchronous(flag : Boolean) : List<DataPost>
+    suspend fun getPostSynchronous(flag : Boolean) : List<DataPost>
 
 }

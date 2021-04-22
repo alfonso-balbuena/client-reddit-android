@@ -8,14 +8,14 @@ import com.alfonso.clientreddit.models.AccessTokenReddit
 @Dao
 interface AcessTokenDao {
     @Insert
-    fun insertToken(tokenReddit : AccessToken)
+    suspend fun insertToken(tokenReddit : AccessToken)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun upsertToken(tokenReddit: AccessToken)
+    suspend fun upsertToken(tokenReddit: AccessToken)
 
     @Query("SELECT * FROM AccessToken")
     fun getAll() : LiveData<List<AccessToken>>
 
     @Query("SELECT * FROM AccessToken")
-    fun getAllSynchronous() : List<AccessToken>
+    suspend fun getAllSynchronous() : List<AccessToken>
 }
