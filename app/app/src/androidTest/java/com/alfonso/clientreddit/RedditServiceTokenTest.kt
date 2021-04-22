@@ -23,21 +23,7 @@ class RedditServiceTokenTest {
 
     private val mockServer = MockWebServer()
 
-    private val client = OkHttpClient.Builder()
-        .connectTimeout(1, TimeUnit.SECONDS)
-        .readTimeout(1, TimeUnit.SECONDS)
-        .writeTimeout(1, TimeUnit.SECONDS)
-        .build()
-
-
-    private val moshi: Moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-
-    private val service = Retrofit.Builder()
-        .baseUrl(mockServer.url("/"))
-        .client(client)
-        .addConverterFactory(MoshiConverterFactory.create(moshi))
-        .build()
-        .create(RedditServiceToken::class.java)
+    private val service = Utils.getRedditServiceToken(mockServer)
 
     @Before
     fun start() {
@@ -51,15 +37,7 @@ class RedditServiceTokenTest {
 
     @Test
     fun getTokenTest() {
-        val mockResponse = MockResponse()
-        mockResponse.setBody("{\n" +
-                "    \"access_token\": \"-wb_qlMgehH7ghFaav3nQ9_-VNvNyAQ\",\n" +
-                "    \"token_type\": \"bearer\",\n" +
-                "    \"device_id\": \"1e73717f-8532-4d69-a5cb-bceb269ca5ab\",\n" +
-                "    \"expires_in\": 3600,\n" +
-                "    \"scope\": \"*\"\n" +
-                "}")
-        mockServer.enqueue(mockResponse)
+        mockServer.enqueue(Utils.getRedditServiceTokenResponse())
         runBlocking {
             val token = service.getAccessToken("","https://oauth.reddit.com/grants/installed_client","")
             assert(token.token_type == "bearer")
