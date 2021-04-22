@@ -1,4 +1,4 @@
-package com.alfonso.clientreddit.RepositoryReddit.webService
+package com.alfonso.clientreddit.repositoryReddit.webService
 
 import com.alfonso.clientreddit.models.RedditListingResponse
 import retrofit2.http.GET

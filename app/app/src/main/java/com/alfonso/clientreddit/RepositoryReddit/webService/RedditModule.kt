@@ -1,4 +1,4 @@
-package com.alfonso.clientreddit.RepositoryReddit.webService
+package com.alfonso.clientreddit.repositoryReddit.webService
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -8,6 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+
 
 @Module
 @InstallIn(SingletonComponent::class)
