@@ -8,11 +8,13 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import javax.inject.Singleton
 
 
 @Module
 @InstallIn(SingletonComponent::class)
 internal object RedditModule {
+    @Singleton
     @Provides
     fun provideRedditServiceToken() : RedditServiceToken {
         val moshi  = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
@@ -21,7 +23,7 @@ internal object RedditModule {
             .build()
         return retrofit.create(RedditServiceToken::class.java)
     }
-
+    @Singleton
     @Provides
     fun provideRedditService() : RedditService {
         val moshi  = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
