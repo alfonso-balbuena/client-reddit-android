@@ -40,7 +40,7 @@ class DataPostDaoInstrumentedTest {
         val postData = DataPost("aaaaaaaa","Title",5,"Me","",1619053076,false, read = false)
         runBlocking {
             dataPostDao.insert(listOf(postData))
-            val list = dataPostDao.getPostsSunpend(false)
+            val list = dataPostDao.getPostsSuspend(false)
             assert(list[0].id == "aaaaaaaa")
         }
 
@@ -53,7 +53,7 @@ class DataPostDaoInstrumentedTest {
             dataPostDao.insert(listOf(postData))
             postData.dismiss = true
             dataPostDao.insert(listOf(postData))
-            val list = dataPostDao.getPostsSunpend(false)
+            val list = dataPostDao.getPostsSuspend(false)
             assert(list.isNotEmpty())
         }
 
@@ -66,7 +66,7 @@ class DataPostDaoInstrumentedTest {
             dataPostDao.insert(listOf(postData))
             postData.dismiss = true
             dataPostDao.upsert(listOf(postData))
-            val list = dataPostDao.getPostsSunpend(false)
+            val list = dataPostDao.getPostsSuspend(false)
             assert(list.isEmpty())
         }
     }

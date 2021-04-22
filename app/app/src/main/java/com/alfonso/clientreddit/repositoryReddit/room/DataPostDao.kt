@@ -20,6 +20,6 @@ interface DataPostDao {
     fun getPosts(flag : Boolean) : LiveData<List<DataPost>>
 
     @Query("SELECT * FROM DataPost WHERE dismiss = :flag ")
-    suspend fun getPostsSunpend(flag : Boolean) : List<DataPost>
+    suspend fun getPostsSuspend(flag : Boolean) : List<DataPost>
 
 }
