@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Client Reddit</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="title_test">Title for showing</string>
+    <string name="content_description_post">Thumbnail of the post</string>
+    <string name="dismiss">Dismiss post</string>
+    <string name="content_description_dismiss">Button for dismiss a post</string>
+    <string name="dismiss_all">Dismiss All</string>
+    <string name="text_time">%1$s hours ago</string>
+    <string name="text_comments">%1$s comments</string>
 </resources>

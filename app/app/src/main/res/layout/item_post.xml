@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="post"
+            type="com.alfonso.clientreddit.models.DataPost" />
+        <variable
+            name="viewModel"
+            type="com.alfonso.clientreddit.viewModel.MainViewModel" />
+    </data>
+
+<com.google.android.material.card.MaterialCardView
+    app:cardCornerRadius="5dp"
+    android:clickable="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:focusable="true"
+    android:layout_margin="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_card"
+        >
+
+        <ImageView
+            android:id="@+id/image_read"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@id/author_post"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/author_post"
+            app:srcCompat="@android:drawable/ic_notification_overlay"
+            android:layout_marginEnd="@dimen/padding_card"
+            app:readImage="@{post.read}"
+            app:layout_constraintHorizontal_weight="1"
+            />
+
+        <TextView
+            android:id="@+id/author_post"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{post.author}"
+            tools:text="@string/title_test"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/image_read"
+            app:layout_constraintEnd_toStartOf="@id/time_post"
+            app:layout_constraintHorizontal_weight="5"
+
+            />
+
+        <TextView
+            android:id="@+id/time_post"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/author_post"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/author_post"
+            app:layout_constraintBottom_toBottomOf="@id/author_post"
+            tools:text="23 hours ago"
+            app:layout_constraintHorizontal_weight="4"
+            app:showTime="@{post.createdUtc}"
+            />
+
+
+        <ImageView
+            android:id="@+id/image_thumbnail"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:contentDescription="@string/content_description_post"
+            app:layout_constraintEnd_toStartOf="@id/title_post"
+            app:layout_constraintHorizontal_weight="3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/author_post"
+            app:imageUrl="@{post.thumbnail}"
+            />
+
+        <TextView
+            android:id="@+id/title_post"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toEndOf="@id/image_thumbnail"
+            app:layout_constraintTop_toTopOf="@id/image_thumbnail"
+            app:layout_constraintBottom_toBottomOf="@id/image_thumbnail"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="@dimen/padding_fragment"
+            android:layout_marginStart="@dimen/padding_fragment"
+            app:layout_constraintHorizontal_weight="6"
+            android:maxLines="4"
+            android:gravity="center"
+            tools:text="hadsjkakhjld khaj sdhjka jkhdkjhlahjkldashjk"
+            android:ellipsize="end"
+            android:text="@{post.title}"
+            />
+
+        <ImageButton
+            android:id="@+id/dismiss_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:contentDescription="@string/content_description_dismiss"
+            android:onClick="@{() -> viewModel.dismiss(post)}"
+            android:src="@android:drawable/ic_notification_clear_all"
+            android:tint="@color/dismiss_button_color"
+            app:layout_constraintStart_toStartOf="@id/image_thumbnail"
+            app:layout_constraintTop_toBottomOf="@id/image_thumbnail" />
+
+        <TextView
+            android:id="@+id/dismiss_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/dismiss"
+            app:layout_constraintBottom_toBottomOf="@id/dismiss_button"
+            app:layout_constraintStart_toEndOf="@id/dismiss_button"
+            app:layout_constraintTop_toTopOf="@id/dismiss_button"
+
+            />
+
+        <TextView
+            android:id="@+id/num_comments_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{String.format(@string/text_comments,post.numComments)}"
+            app:layout_constraintTop_toTopOf="@id/dismiss_button"
+            app:layout_constraintBottom_toBottomOf="@id/dismiss_button"
+            app:layout_constraintStart_toEndOf="@id/dismiss_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:gravity="end"
+            android:layout_marginEnd="@dimen/padding_fragment"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>
+
+</layout>
