@@ -30,6 +30,8 @@ class RepositoryTest {
         repository = PostRepository(serviceToken,service,db)
         mockServer.enqueue(Utils.getRedditServiceTokenResponse())
         mockServer.enqueue(Utils.getRedditServiceResponse())
+        mockServer.enqueue(Utils.getRedditServiceTokenResponse())
+        mockServer.enqueue(Utils.getRedditServiceResponse2())
     }
 
     @After
@@ -92,6 +94,22 @@ class RepositoryTest {
             repository.dismiss(post)
             val postList = db.postDao().getPostsSuspend(false)
             assert(postList.isEmpty())
+        }
+    }
+
+    @Test
+    fun refreshTest() {
+        runBlocking {
+            repository.init()
+            var post = repository.getPost("2hqlxp")
+            assert(!post.read)
+            post.read = true
+            repository.read(post)
+            repository.refresh()
+            val postList = db.postDao().getPostsSuspend(false)
+            assert(postList.size == 2)
+            post = repository.getPost("2hqlxp")
+            assert(post.read)
         }
     }
 }

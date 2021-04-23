@@ -33,7 +33,12 @@ class PostRepository @Inject constructor(private val redditService : RedditServi
         val basic = Credentials.basic(BuildConfig.CLIENT_ID,"")
         val token = redditService.getAccessToken(basic,GRANT_TYPE,deviceId)
         val tokenDB = AccessToken.convert(token)
-        dataBase.tokenDao().insertToken(tokenDB)
+        if(tokens.isEmpty()) {
+            dataBase.tokenDao().insertToken(tokenDB)
+        } else {
+            tokenDB.id = tokens[0].id
+            dataBase.tokenDao().upsertToken(tokenDB)
+        }
         return tokenDB
     }
 

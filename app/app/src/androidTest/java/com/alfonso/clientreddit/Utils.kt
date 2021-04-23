@@ -57,6 +57,117 @@ class Utils {
             return mockResponse
         }
 
+        fun getRedditServiceResponse2() : MockResponse {
+            val response = "{\n" +
+                    "    \"kind\": \"Listing\",\n" +
+                    "    \"data\": {\n" +
+                    "        \"modhash\": \"\",\n" +
+                    "        \"dist\" : 2,\n" +
+                    "        \"children\": [\n" +
+                    "            {\n" +
+                    "                \"kind\": \"t3\",\n" +
+                    "                \"data\": {\n" +
+                    "                    \"domain\": \"i.imgur.com\",\n" +
+                    "                    \"banned_by\": null,\n" +
+                    "                    \"media_embed\": {},\n" +
+                    "                    \"subreddit\": \"funny\",\n" +
+                    "                    \"selftext_html\": null,\n" +
+                    "                    \"selftext\": \"\",\n" +
+                    "                    \"likes\": null,\n" +
+                    "                    \"user_reports\": [],\n" +
+                    "                    \"secure_media\": null,\n" +
+                    "                    \"link_flair_text\": null,\n" +
+                    "                    \"id\": \"2hqlxp\",\n" +
+                    "                    \"gilded\": 0,\n" +
+                    "                    \"secure_media_embed\": {},\n" +
+                    "                    \"clicked\": false,\n" +
+                    "                    \"report_reasons\": null,\n" +
+                    "                    \"author\": \"washedupwornout\",\n" +
+                    "                    \"media\": null,\n" +
+                    "                    \"score\": 4841,\n" +
+                    "                    \"approved_by\": null,\n" +
+                    "                    \"over_18\": false,\n" +
+                    "                    \"hidden\": false,\n" +
+                    "                    \"thumbnail\": \"http://b.thumbs.redditmedia.com/9N1f7UGKM5fPZydrsgbb4_SUyyLW7A27um1VOygY3LM.jpg\",\n" +
+                    "                    \"subreddit_id\": \"t5_2qh33\",\n" +
+                    "                    \"edited\": false,\n" +
+                    "                    \"link_flair_css_class\": null,\n" +
+                    "                    \"author_flair_css_class\": null,\n" +
+                    "                    \"downs\": 0,\n" +
+                    "                    \"mod_reports\": [],\n" +
+                    "                    \"saved\": false,\n" +
+                    "                    \"is_self\": false,\n" +
+                    "                    \"name\": \"t3_2hqlxp\",\n" +
+                    "                    \"permalink\": \"/r/funny/comments/2hqlxp/man_trying_to_return_a_dogs_toy_gets_tricked_into/\",\n" +
+                    "                    \"stickied\": false,\n" +
+                    "                    \"created\": 1411975314,\n" +
+                    "                    \"url\": \"http://i.imgur.com/4CHXnj2.gif\",\n" +
+                    "                    \"author_flair_text\": null,\n" +
+                    "                    \"title\": \"Man trying to return a dog's toy gets tricked into playing fetch\",\n" +
+                    "                    \"created_utc\": 1411946514,\n" +
+                    "                    \"ups\": 4841,\n" +
+                    "                    \"num_comments\": 958,\n" +
+                    "                    \"visited\": false,\n" +
+                    "                    \"num_reports\": null,\n" +
+                    "                    \"distinguished\": null\n" +
+                    "                }\n" +
+                    "            },\n" +
+                    "            {\n" +
+                    "                \"kind\": \"t3\",\n" +
+                    "                \"data\": {\n" +
+                    "                    \"domain\": \"alphagalileo.org\",\n" +
+                    "                    \"banned_by\": null,\n" +
+                    "                    \"media_embed\": {},\n" +
+                    "                    \"subreddit\": \"science\",\n" +
+                    "                    \"selftext_html\": null,\n" +
+                    "                    \"selftext\": \"\",\n" +
+                    "                    \"likes\": null,\n" +
+                    "                    \"user_reports\": [],\n" +
+                    "                    \"secure_media\": null,\n" +
+                    "                    \"link_flair_text\": \"Social Sciences\",\n" +
+                    "                    \"id\": \"2hozly\",\n" +
+                    "                    \"gilded\": 0,\n" +
+                    "                    \"secure_media_embed\": {},\n" +
+                    "                    \"clicked\": false,\n" +
+                    "                    \"report_reasons\": null,\n" +
+                    "                    \"author\": \"mubukugrappa\",\n" +
+                    "                    \"media\": null,\n" +
+                    "                    \"score\": 4498,\n" +
+                    "                    \"approved_by\": null,\n" +
+                    "                    \"over_18\": false,\n" +
+                    "                    \"hidden\": false,\n" +
+                    "                    \"thumbnail\": \"\",\n" +
+                    "                    \"subreddit_id\": \"t5_mouw\",\n" +
+                    "                    \"edited\": false,\n" +
+                    "                    \"link_flair_css_class\": \"soc\",\n" +
+                    "                    \"author_flair_css_class\": null,\n" +
+                    "                    \"downs\": 0,\n" +
+                    "                    \"mod_reports\": [],\n" +
+                    "                    \"saved\": false,\n" +
+                    "                    \"is_self\": false,\n" +
+                    "                    \"name\": \"t3_2hozly\",\n" +
+                    "                    \"permalink\": \"/r/science/comments/2hozly/the_secret_to_raising_well_behaved_teens_maximise/\",\n" +
+                    "                    \"stickied\": false,\n" +
+                    "                    \"created\": 1411937584,\n" +
+                    "                    \"url\": \"http://www.alphagalileo.org/ViewItem.aspx?ItemId=145707&amp;CultureCode=en\",\n" +
+                    "                    \"author_flair_text\": null,\n" +
+                    "                    \"title\": \"The secret to raising well behaved teens? Maximise their sleep: While paediatricians warn sleep deprivation can stack the deck against teenagers, a new study reveals youth’s irritability and laziness aren’t down to attitude problems but lack of sleep\",\n" +
+                    "                    \"created_utc\": 1411908784,\n" +
+                    "                    \"ups\": 4498,\n" +
+                    "                    \"num_comments\": 3740,\n" +
+                    "                    \"visited\": false,\n" +
+                    "                    \"num_reports\": null,\n" +
+                    "                    \"distinguished\": null\n" +
+                    "                }\n" +
+                    "            }\n" +
+                    "        ]\n" +
+                    "    }\n" +
+                    "}"
+            val mockResponse = MockResponse()
+            mockResponse.setBody(response)
+            return mockResponse
+        }
+
         fun getRedditServiceResponse() : MockResponse {
             val response = "{\n" +
                     "    \"kind\": \"Listing\",\n" +
