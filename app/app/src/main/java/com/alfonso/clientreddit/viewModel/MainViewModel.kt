@@ -1,6 +1,8 @@
 package com.alfonso.clientreddit.viewModel
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alfonso.clientreddit.models.DataPost
@@ -17,6 +19,9 @@ class MainViewModel @Inject constructor(private val repository: PostRepository) 
     val isLoading = repository.isLoading
     val hasNext = repository.hasNext
     val hasPrevious = repository.hasPrevious
+    private val _postSelected : MutableLiveData<DataPost> = MutableLiveData()
+    val postSelected : LiveData<DataPost>
+    get() = _postSelected
 
     init {
         viewModelScope.launch {
@@ -50,6 +55,10 @@ class MainViewModel @Inject constructor(private val repository: PostRepository) 
             Timber.d("Dismissing all items...")
             posts.value?.let { repository.dismiss(it) }
         }
+    }
+
+    fun selectPost(post : DataPost) {
+        _postSelected.value = post
     }
 
 }

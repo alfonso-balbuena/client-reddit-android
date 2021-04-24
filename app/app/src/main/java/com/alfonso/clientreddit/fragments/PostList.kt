@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import com.alfonso.clientreddit.R
 import com.alfonso.clientreddit.adapter.PostAdapter
+import com.alfonso.clientreddit.adapter.PostListener
 import com.alfonso.clientreddit.databinding.FragmentPostListBinding
 import com.alfonso.clientreddit.viewModel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,7 +30,9 @@ class PostList : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_post_list,container,false)
-        val adapter = PostAdapter(viewModelShared)
+        val adapter = PostAdapter(viewModelShared, PostListener {
+            viewModelShared.selectPost(it)
+        })
         binding.recyclerViewPosts.adapter = adapter
         binding.viewModel = viewModelShared
 

@@ -7,9 +7,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.alfonso.clientreddit.models.DataPost
 import com.alfonso.clientreddit.databinding.ItemPostBinding
+import com.alfonso.clientreddit.generated.callback.OnClickListener
 import com.alfonso.clientreddit.viewModel.MainViewModel
 
-class PostAdapter(val viewModel: MainViewModel) : ListAdapter<DataPost,PostAdapter.PostViewHolder>(PostDiffCallback())  {
+class PostAdapter(val viewModel: MainViewModel, val clickListener: PostListener) : ListAdapter<DataPost,PostAdapter.PostViewHolder>(PostDiffCallback())  {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         return PostViewHolder.create(parent,viewModel)
@@ -17,13 +18,14 @@ class PostAdapter(val viewModel: MainViewModel) : ListAdapter<DataPost,PostAdapt
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item)
+        holder.bind(item,clickListener)
     }
 
 
     class PostViewHolder private constructor(private val binding : ItemPostBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item : DataPost) {
+        fun bind(item : DataPost,clickListener: PostListener) {
             binding.post = item
+            binding.listener = clickListener
             binding.executePendingBindings()
         }
 
@@ -36,6 +38,10 @@ class PostAdapter(val viewModel: MainViewModel) : ListAdapter<DataPost,PostAdapt
             }
         }
     }
+}
+
+class PostListener(val listener : (post : DataPost) -> Unit) {
+    fun onClick(post : DataPost) = listener(post)
 }
 
 class PostDiffCallback : DiffUtil.ItemCallback<DataPost>() {

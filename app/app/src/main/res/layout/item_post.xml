@@ -10,6 +10,9 @@
         <variable
             name="viewModel"
             type="com.alfonso.clientreddit.viewModel.MainViewModel" />
+        <variable
+            name="listener"
+            type="com.alfonso.clientreddit.adapter.PostListener" />
     </data>
 
 <com.google.android.material.card.MaterialCardView
@@ -18,7 +21,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:focusable="true"
-    android:layout_margin="10dp">
+    android:layout_margin="10dp"
+    android:onClick="@{() -> listener.onClick(post)}"
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
