@@ -19,21 +19,59 @@ class PostRepository @Inject constructor(private val redditService : RedditServi
     private val GRANT_TYPE = "https://oauth.reddit.com/grants/installed_client"
     private val T_REDDIT = "month"
     private val LIMIT = 15
+    private val ELEMENTS_PAG = 5
 
-    val posts : LiveData<List<DataPost>> = dataBase.postDao().getPosts(false)
     private val _isLoading : MutableLiveData<Boolean> = MutableLiveData()
     val isLoading : LiveData<Boolean>
     get() = _isLoading
 
+    private var startIndex = 0
+    private var endIndex = ELEMENTS_PAG
+
+    private lateinit var _allPosts : List<DataPost>
+    private val _posts : MutableLiveData<List<DataPost>> = MutableLiveData()
+    val posts : LiveData<List<DataPost>>
+    get() = _posts
+
+    private var _hasNext : MutableLiveData<Boolean>  = MutableLiveData()
+    private var _hasPrevious : MutableLiveData<Boolean> = MutableLiveData()
+    val hasNext : LiveData<Boolean>
+    get() = _hasNext
+    val hasPrevious : LiveData<Boolean>
+    get() = _hasPrevious
+
     init {
-        _isLoading.value = false
+        _isLoading.postValue( false)
     }
 
     suspend fun init() {
-        val list = dataBase.postDao().getPostsSuspend(false)
-        if (list.isEmpty()) {
+        _allPosts = dataBase.postDao().getPostsSuspend(false)
+        if (_allPosts.isEmpty()) {
             refresh()
         }
+        getNewPag()
+    }
+
+    private fun getNewPag() {
+        _posts.postValue(_allPosts.subList(startIndex,endIndex))
+        updateFlagsForPagination()
+    }
+
+    private fun updateFlagsForPagination() {
+        _hasPrevious.postValue(startIndex > 0)
+        _hasNext.postValue(_allPosts.size > endIndex)
+    }
+
+    fun next() {
+        startIndex += ELEMENTS_PAG
+        endIndex += ELEMENTS_PAG
+        getNewPag()
+    }
+
+    fun previous() {
+        startIndex -= ELEMENTS_PAG
+        endIndex -= ELEMENTS_PAG
+        getNewPag()
     }
 
     suspend fun getToken() : AccessToken {
@@ -53,7 +91,7 @@ class PostRepository @Inject constructor(private val redditService : RedditServi
     }
 
     suspend fun refresh() {
-        _isLoading.value = true
+        _isLoading.postValue(true)
         val token = getToken()
         val auth = "Bearer " + token.access_token
         val dataResponse = service.getTop(auth,T_REDDIT,0,LIMIT)
@@ -63,7 +101,15 @@ class PostRepository @Inject constructor(private val redditService : RedditServi
             Timber.d(it.title)
         }
         dataBase.postDao().insert(dataPostDB)
-        _isLoading.value = false
+        restart()
+        _isLoading.postValue(false)
+    }
+
+    private suspend fun restart() {
+        startIndex = 0
+        endIndex = ELEMENTS_PAG
+        _allPosts = dataBase.postDao().getPostsSuspend(false)
+        getNewPag()
     }
 
     suspend fun getPost(idPost: String) : DataPost {

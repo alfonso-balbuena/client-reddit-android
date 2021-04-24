@@ -32,6 +32,15 @@ class PostList : Fragment() {
         val adapter = PostAdapter(viewModelShared)
         binding.recyclerViewPosts.adapter = adapter
         binding.viewModel = viewModelShared
+
+        viewModelShared.hasNext.observe(viewLifecycleOwner, {
+            binding.nextButton.isEnabled = it
+        })
+
+        viewModelShared.hasPrevious.observe(viewLifecycleOwner,{
+            binding.previousButton.isEnabled =it
+        })
+
         viewModelShared.isLoading.observe(viewLifecycleOwner, {
             binding.swipeRefresh.isRefreshing = it
         })

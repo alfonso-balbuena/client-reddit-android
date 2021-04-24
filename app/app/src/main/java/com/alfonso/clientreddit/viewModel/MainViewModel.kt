@@ -15,11 +15,21 @@ class MainViewModel @Inject constructor(private val repository: PostRepository) 
 
     val posts  = repository.posts
     val isLoading = repository.isLoading
+    val hasNext = repository.hasNext
+    val hasPrevious = repository.hasPrevious
 
     init {
         viewModelScope.launch {
             repository.init()
         }
+    }
+
+    fun next() {
+        repository.next()
+    }
+
+    fun previous() {
+        repository.previous()
     }
 
     fun refresh() {

@@ -8,4 +8,6 @@
     <string name="dismiss_all">Dismiss All</string>
     <string name="text_time">%1$s hours ago</string>
     <string name="text_comments">%1$s comments</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
 </resources>

@@ -6,6 +6,9 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.alfonso.clientreddit.repositoryReddit.repository.PostRepository
 import com.alfonso.clientreddit.repositoryReddit.room.AppDataBase
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
@@ -43,6 +46,7 @@ class RepositoryTest {
 
     @Test
     fun getToken() {
+
         runBlocking {
             val token = repository.getToken()
             assert(token.access_token == "-wb_qlMgehH7ghFaav3nQ9_-VNvNyAQ")
@@ -110,6 +114,32 @@ class RepositoryTest {
             assert(postList.size == 2)
             post = repository.getPost("2hqlxp")
             assert(post.read)
+        }
+    }
+
+    @Test
+    fun paginationTest() {
+        runBlocking {
+            repository.init()
+            delay(1000)
+            assert(repository.posts.value?.size == 1)
+            repository.hasNext.value?.let { assert(!it) }
+            repository.hasPrevious.value?.let { assert(!it) }
+            repository.refresh()
+            delay(1000)
+            val oldPost = repository.posts.value?.get(0)
+            assert(repository.posts.value?.size == 1)
+            repository.hasNext.value?.let { assert(it) }
+            repository.hasPrevious.value?.let { assert(!it) }
+            repository.next()
+            delay(1000)
+            repository.hasNext.value?.let { assert(!it) }
+            repository.hasPrevious.value?.let { assert(it) }
+            repository.previous()
+            delay(1000)
+            assert(oldPost == repository.posts.value?.get(0))
+            repository.hasNext.value?.let { assert(it) }
+            repository.hasPrevious.value?.let { assert(!it) }
         }
     }
 }
