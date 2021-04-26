@@ -53,7 +53,9 @@ class PostRepository @Inject constructor(private val redditService : RedditServi
     }
 
     private fun getNewPag() {
-        _posts.postValue(_allPosts.subList(startIndex,endIndex))
+        val auxEndIndex = if (endIndex > _allPosts.size) _allPosts.size else endIndex
+        _posts.postValue(_allPosts.subList(startIndex,auxEndIndex))
+        _posts.value?.forEach { Timber.d(it.toString()) }
         updateFlagsForPagination()
     }
 
@@ -105,11 +107,15 @@ class PostRepository @Inject constructor(private val redditService : RedditServi
         _isLoading.postValue(false)
     }
 
+    private suspend fun getChangesInTable() {
+        _allPosts = dataBase.postDao().getPostsSuspend(false)
+        getNewPag()
+    }
+
     private suspend fun restart() {
         startIndex = 0
         endIndex = ELEMENTS_PAG
-        _allPosts = dataBase.postDao().getPostsSuspend(false)
-        getNewPag()
+        getChangesInTable()
     }
 
     suspend fun getPost(idPost: String) : DataPost {
@@ -117,13 +123,15 @@ class PostRepository @Inject constructor(private val redditService : RedditServi
     }
 
     suspend fun read(post : DataPost) {
-        post.read = true
-        dataBase.postDao().upsert(listOf(post))
+        val newPost = DataPost(post.id,post.title,post.numComments,post.author,post.thumbnail,post.createdUtc,post.link,post.dismiss,true)
+        dataBase.postDao().upsert(listOf(newPost))
+        getChangesInTable()
     }
 
     suspend fun dismiss(post: DataPost) {
         post.dismiss = true
         dataBase.postDao().upsert(listOf(post))
+        getChangesInTable()
     }
 
     suspend fun dismiss(posts: List<DataPost>) {
@@ -131,6 +139,7 @@ class PostRepository @Inject constructor(private val redditService : RedditServi
             it.dismiss = true
         }
         dataBase.postDao().upsert(posts)
+        getChangesInTable()
     }
 
 }
