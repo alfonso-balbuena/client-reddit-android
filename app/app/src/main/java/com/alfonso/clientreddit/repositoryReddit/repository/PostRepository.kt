@@ -142,4 +142,12 @@ class PostRepository @Inject constructor(private val redditService : RedditServi
         getChangesInTable()
     }
 
+    suspend fun dismissAll() {
+        _allPosts.forEach {
+            it.dismiss = true
+        }
+        dataBase.postDao().upsert(_allPosts)
+        getChangesInTable()
+    }
+
 }

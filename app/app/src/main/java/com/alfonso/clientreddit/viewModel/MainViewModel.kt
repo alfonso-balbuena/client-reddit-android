@@ -59,7 +59,7 @@ class MainViewModel @Inject constructor(private val repository: PostRepository) 
     fun dismissAll() {
         viewModelScope.launch {
             Timber.d("Dismissing all items...")
-            posts.value?.let { repository.dismiss(it) }
+            repository.dismissAll()
         }
     }
 
