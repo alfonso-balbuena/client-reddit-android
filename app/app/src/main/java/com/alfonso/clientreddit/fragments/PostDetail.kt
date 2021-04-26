@@ -1,5 +1,7 @@
 package com.alfonso.clientreddit.fragments
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -23,10 +25,23 @@ class PostDetail : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_post_detail,container,false)
+
         viewModelShared.postSelected.observe(viewLifecycleOwner, {
+            viewModelShared.readPost(it)
             binding.post = it
             binding.executePendingBindings()
         })
+
+        binding.imagePost.setOnClickListener {
+            binding.post?.link?.let {
+                val uri = "https://reddit.com$it"
+                Timber.d("Opening... $uri")
+                val webView = Intent(Intent.ACTION_VIEW)
+                webView.data = Uri.parse(uri)
+                startActivity(webView)
+            }
+
+        }
         return binding.root
     }
 
