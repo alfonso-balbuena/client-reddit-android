@@ -43,6 +43,12 @@ class MainViewModel @Inject constructor(private val repository: PostRepository) 
         }
     }
 
+    fun readPost(post: DataPost) {
+        viewModelScope.launch {
+            repository.read(post)
+        }
+    }
+
     fun dismiss(post: DataPost) {
         viewModelScope.launch {
             Timber.d("Dismissing... $post")
