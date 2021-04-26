@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import com.alfonso.clientreddit.R
+import com.alfonso.clientreddit.adapter.ItemAnimatorPost
 import com.alfonso.clientreddit.adapter.PostAdapter
 import com.alfonso.clientreddit.adapter.PostListener
 import com.alfonso.clientreddit.databinding.FragmentPostListBinding
@@ -34,6 +35,8 @@ class PostList : Fragment() {
             viewModelShared.selectPost(it)
         })
         binding.recyclerViewPosts.adapter = adapter
+        binding.recyclerViewPosts.itemAnimator = ItemAnimatorPost()
+
         binding.viewModel = viewModelShared
 
         viewModelShared.hasNext.observe(viewLifecycleOwner, {
