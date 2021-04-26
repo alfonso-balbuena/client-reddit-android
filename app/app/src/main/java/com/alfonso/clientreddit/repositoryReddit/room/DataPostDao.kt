@@ -7,7 +7,7 @@ import com.alfonso.clientreddit.models.DataPost
 @Dao
 interface DataPostDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(data : List<DataPost>)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)

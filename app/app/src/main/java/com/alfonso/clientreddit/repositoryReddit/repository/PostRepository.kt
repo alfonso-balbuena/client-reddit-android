@@ -19,7 +19,7 @@ class PostRepository @Inject constructor(private val redditService : RedditServi
     private val GRANT_TYPE = "https://oauth.reddit.com/grants/installed_client"
     private val T_REDDIT = "month"
     private val LIMIT = 15
-    private val ELEMENTS_PAG = 5
+    private var ELEMENTS_PAG = 5
 
     private val _isLoading : MutableLiveData<Boolean> = MutableLiveData()
     val isLoading : LiveData<Boolean>
@@ -42,6 +42,10 @@ class PostRepository @Inject constructor(private val redditService : RedditServi
 
     init {
         _isLoading.postValue( false)
+    }
+
+    fun initElementsPage(elements : Int) {
+        ELEMENTS_PAG = elements
     }
 
     suspend fun init() {
