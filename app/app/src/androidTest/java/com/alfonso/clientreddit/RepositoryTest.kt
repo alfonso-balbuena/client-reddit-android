@@ -113,13 +113,14 @@ class RepositoryTest {
             val postList = db.postDao().getPostsSuspend(false)
             assert(postList.size == 2)
             post = repository.getPost("2hqlxp")
-            assert(post.read)
+            assert(!post.read)
         }
     }
 
     @Test
     fun paginationTest() {
         runBlocking {
+            repository.initElementsPage(1)
             repository.init()
             delay(1000)
             assert(repository.posts.value?.size == 1)

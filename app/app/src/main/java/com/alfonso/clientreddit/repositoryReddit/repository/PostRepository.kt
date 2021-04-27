@@ -19,7 +19,7 @@ class PostRepository @Inject constructor(private val redditService : RedditServi
     private val GRANT_TYPE = "https://oauth.reddit.com/grants/installed_client"
     private val T_REDDIT = "month"
     private val LIMIT = 15
-    private val ELEMENTS_PAG = 5
+    private var ELEMENTS_PAG = 5
 
     private val _isLoading : MutableLiveData<Boolean> = MutableLiveData()
     val isLoading : LiveData<Boolean>
@@ -42,6 +42,10 @@ class PostRepository @Inject constructor(private val redditService : RedditServi
 
     init {
         _isLoading.postValue( false)
+    }
+
+    fun initElementsPage(elements : Int) {
+        ELEMENTS_PAG = elements
     }
 
     suspend fun init() {
@@ -123,9 +127,11 @@ class PostRepository @Inject constructor(private val redditService : RedditServi
     }
 
     suspend fun read(post : DataPost) {
-        val newPost = DataPost(post.id,post.title,post.numComments,post.author,post.thumbnail,post.createdUtc,post.link,post.dismiss,true)
-        dataBase.postDao().upsert(listOf(newPost))
-        getChangesInTable()
+        if(!post.read) {
+            val newPost = DataPost(post.id,post.title,post.numComments,post.author,post.thumbnail,post.createdUtc,post.link,post.dismiss,true)
+            dataBase.postDao().upsert(listOf(newPost))
+            getChangesInTable()
+        }
     }
 
     suspend fun dismiss(post: DataPost) {
@@ -139,6 +145,14 @@ class PostRepository @Inject constructor(private val redditService : RedditServi
             it.dismiss = true
         }
         dataBase.postDao().upsert(posts)
+        getChangesInTable()
+    }
+
+    suspend fun dismissAll() {
+        _allPosts.forEach {
+            it.dismiss = true
+        }
+        dataBase.postDao().upsert(_allPosts)
         getChangesInTable()
     }
 

@@ -37,7 +37,7 @@ class DataPostDaoInstrumentedTest {
 
     @Test
     fun insertTest() {
-        val postData = DataPost("aaaaaaaa","Title",5,"Me","",1619053076,false, read = false)
+        val postData = DataPost("aaaaaaaa","Title",5,"Me","",1619053076,"",false, read = false)
         runBlocking {
             dataPostDao.insert(listOf(postData))
             val list = dataPostDao.getPostsSuspend(false)
@@ -47,21 +47,21 @@ class DataPostDaoInstrumentedTest {
     }
 
     @Test
-    fun insertIgnoreDuplicateTest() {
-        val postData = DataPost("aaaaaaaa","Title",5,"Me","",1619053076,false, read = false)
+    fun insertReplaceDuplicateTest() {
+        val postData = DataPost("aaaaaaaa","Title",5,"Me","",1619053076,"",false, read = false)
         runBlocking {
             dataPostDao.insert(listOf(postData))
             postData.dismiss = true
             dataPostDao.insert(listOf(postData))
             val list = dataPostDao.getPostsSuspend(false)
-            assert(list.isNotEmpty())
+            assert(list.isEmpty())
         }
 
     }
 
     @Test
     fun upsertTest() {
-        val postData = DataPost("aaaaaaaa","Title",5,"Me","",1619053076,false, read = false)
+        val postData = DataPost("aaaaaaaa","Title",5,"Me","",1619053076,"",false, read = false)
         runBlocking {
             dataPostDao.insert(listOf(postData))
             postData.dismiss = true
@@ -73,7 +73,7 @@ class DataPostDaoInstrumentedTest {
 
     @Test
     fun getPostDataTest() {
-        val postData = DataPost("aaaaaaaa","Title",5,"Me","",1619053076,false, read = false)
+        val postData = DataPost("aaaaaaaa","Title",5,"Me","",1619053076,"",false, read = false)
         runBlocking {
             dataPostDao.insert(listOf(postData))
             val dataPostDB = dataPostDao.getPost(postData.id)
