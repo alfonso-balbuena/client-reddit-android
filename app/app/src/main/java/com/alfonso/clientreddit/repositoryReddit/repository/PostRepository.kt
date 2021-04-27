@@ -127,9 +127,11 @@ class PostRepository @Inject constructor(private val redditService : RedditServi
     }
 
     suspend fun read(post : DataPost) {
-        val newPost = DataPost(post.id,post.title,post.numComments,post.author,post.thumbnail,post.createdUtc,post.link,post.dismiss,true)
-        dataBase.postDao().upsert(listOf(newPost))
-        getChangesInTable()
+        if(!post.read) {
+            val newPost = DataPost(post.id,post.title,post.numComments,post.author,post.thumbnail,post.createdUtc,post.link,post.dismiss,true)
+            dataBase.postDao().upsert(listOf(newPost))
+            getChangesInTable()
+        }
     }
 
     suspend fun dismiss(post: DataPost) {
