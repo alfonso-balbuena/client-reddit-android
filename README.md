@@ -22,4 +22,16 @@ Insted of put "ID" you should use your reddit cliend id.
 
 ## App
 
+-The app uses the repository pattern. The app checks if there are no posts in the database (using for cache), it calles the endpoints to get the top 50 from Reddit and saves theses into the database. 
+-The operations read and dismiss update the records in the database.
+-Refresh operation will replace the records in the database (restoring the values for read and dismiss to false)
+
 ![Diagram class](/class.PNG "Diagram class")
+
+## Features
+
+- Pagination for RecyclerView with 10 elements per page
+- Pull to refresh the list
+- Save pictures in the gallery
+- Dismiss a post or dismiss all the posts
+- Support for landscape (Marter-detail pattern) and portrait (Using a drawerLayout)
