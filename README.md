@@ -35,3 +35,4 @@ Insted of put "ID" you should use your reddit cliend id.
 - Save pictures in the gallery
 - Dismiss a post or dismiss all the posts
 - Support for landscape (Marter-detail pattern) and portrait (Using a drawerLayout)
+- In detail view, if you tap the image, the app will open the url of the post
